@@ -1,0 +1,263 @@
+{
+  "columns": [
+    "image_id",
+    "genre",
+    "emotion",
+    "caption",
+    "art_style",
+    "painting",
+    "language",
+    "image_name",
+    "split"
+  ],
+  "emotion_values": {
+    "contentment": 52390,
+    "excitement": 20821,
+    "sadness": 20696,
+    "awe": 19980,
+    "amusement": 17569,
+    "fear": 14843,
+    "something else": 12152,
+    "disgust": 10604,
+    "anger": 3601,
+    "other": 1089
+  },
+  "language_spellings": {},
+  "unknown_languages": [],
+  "rows_by_raw_language_variant": [],
+  "paintings_in_multiple_splits": 0,
+  "images_in_multiple_splits": 0,
+  "painting_to_image_not_1to1": 0,
+  "splits": {
+    "train": {
+      "paintings": 1572,
+      "annotations": 165013,
+      "st1_instances": 152447,
+      "st1_per_painting": {
+        "min": 2,
+        "median": 100.0,
+        "max": 125
+      },
+      "languages_per_painting_median": 26.0,
+      "st3_pairs": 16019,
+      "st3_paintings_with_3plus_languages": 1532,
+      "emotion_share": {
+        "contentment": 0.326,
+        "excitement": 0.1295,
+        "sadness": 0.129,
+        "awe": 0.1246,
+        "amusement": 0.1097,
+        "fear": 0.0926,
+        "disgust": 0.0661,
+        "anger": 0.0225
+      },
+      "year_coverage": 0.52735368956743,
+      "year_quantiles": {
+        "0.1": 1630,
+        "0.5": 1903,
+        "0.9": 1969
+      },
+      "era_counts": {
+        "unknown": 743,
+        "1870-1909": 298,
+        "1910-1944": 191,
+        "1945+": 152,
+        "<1600": 73,
+        "1800-1869": 61,
+        "1600-1799": 54
+      }
+    },
+    "val": {
+      "paintings": 86,
+      "annotations": 8732,
+      "st1_instances": 8057,
+      "st1_per_painting": {
+        "min": 13,
+        "median": 99.5,
+        "max": 117
+      },
+      "languages_per_painting_median": 26.0,
+      "st3_pairs": 849,
+      "st3_paintings_with_3plus_languages": 83,
+      "emotion_share": {
+        "contentment": 0.3336,
+        "excitement": 0.1348,
+        "sadness": 0.127,
+        "awe": 0.1219,
+        "amusement": 0.105,
+        "fear": 0.0911,
+        "disgust": 0.0658,
+        "anger": 0.0209
+      },
+      "year_coverage": 0.5930232558139535,
+      "year_quantiles": {
+        "0.1": 1644,
+        "0.5": 1894,
+        "0.9": 1964
+      },
+      "era_counts": {
+        "unknown": 35,
+        "1870-1909": 14,
+        "1945+": 13,
+        "1910-1944": 7,
+        "1800-1869": 7,
+        "<1600": 5,
+        "1600-1799": 5
+      }
+    }
+  },
+  "artists": {
+    "train": 521,
+    "val": 75,
+    "val_paintings_with_train_artist": 69
+  },
+  "val_shift": {
+    "art_style": {
+      "tvd": 0.21530859814190187,
+      "null_median": 0.19003343393100183,
+      "p_value": 0.21978021978021978
+    },
+    "genre": {
+      "tvd": 0.18683058169122432,
+      "null_median": 0.11583525652405469,
+      "p_value": 0.03496503496503497
+    },
+    "era": {
+      "tvd": 0.13255222202497188,
+      "null_median": 0.09206905734067104,
+      "p_value": 0.10789210789210789
+    },
+    "artist": {
+      "tvd": 0.7405615716906326,
+      "null_median": 0.728704361204805,
+      "p_value": 0.3206793206793207
+    },
+    "year_ks": {
+      "statistic": 0.11684287707845503,
+      "p_value": 0.4901518680368422
+    }
+  },
+  "image_duplicates_train_val": {
+    "hashed_a": 86,
+    "hashed_b": 1572,
+    "missing_files": 0,
+    "exact": [],
+    "near": []
+  },
+  "phase_inputs": {
+    "dev": {
+      "st1": {
+        "rows": 16114,
+        "columns": [
+          "id",
+          "language",
+          "image",
+          "caption"
+        ],
+        "languages": [
+          "Arabic",
+          "Burmese",
+          "Chinese",
+          "Darija",
+          "Emakhuwa",
+          "English",
+          "Hausa",
+          "Hindi",
+          "Igbo",
+          "Indonesian",
+          "IsiNdebele",
+          "IsiXhosa",
+          "IsiZulu",
+          "Kazakh",
+          "Kinyarwanda",
+          "Korean",
+          "Kyrgyz",
+          "Malay",
+          "Setswana",
+          "Swahili",
+          "Tagalog",
+          "Tamil",
+          "Thai",
+          "Turkish",
+          "Urdu",
+          "Uzbek",
+          "Vietnamese",
+          "Yoruba"
+        ]
+      },
+      "st2": {
+        "rows": 2320,
+        "columns": [
+          "painting",
+          "source_language",
+          "target_language",
+          "source_p_positive"
+        ],
+        "paintings": 83,
+        "paintings_in_train": 0,
+        "paintings_with_train_artist": 66,
+        "year_coverage": 0.6024096385542169,
+        "era_counts": {
+          "unknown": 33,
+          "1870-1909": 14,
+          "1945+": 12,
+          "1800-1869": 7,
+          "1910-1944": 7,
+          "1600-1799": 5,
+          "<1600": 5
+        }
+      },
+      "st3": {
+        "rows": 849,
+        "columns": [
+          "painting",
+          "language",
+          "image"
+        ],
+        "paintings": 85,
+        "paintings_in_train": 0,
+        "paintings_with_train_artist": 68,
+        "year_coverage": 0.6,
+        "era_counts": {
+          "unknown": 34,
+          "1870-1909": 14,
+          "1945+": 13,
+          "1800-1869": 7,
+          "1910-1944": 7,
+          "1600-1799": 5,
+          "<1600": 5
+        },
+        "languages": [
+          "Arabic",
+          "Burmese",
+          "Chinese",
+          "English",
+          "Hausa",
+          "Hindi",
+          "Igbo",
+          "Indonesian",
+          "IsiZulu",
+          "Korean",
+          "Kyrgyz",
+          "Malay",
+          "Setswana",
+          "Swahili",
+          "Tagalog",
+          "Tamil",
+          "Thai",
+          "Turkish",
+          "Urdu",
+          "Uzbek",
+          "Vietnamese",
+          "Yoruba"
+        ]
+      }
+    },
+    "test": {}
+  },
+  "dev_st3_vs_val_gold": {
+    "dev_pairs": 849,
+    "gold_pairs": 849,
+    "in_both": 849
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "subtask": "st3",
+  "n_boot": 1000,
+  "seed": 0,
+  "pairs": 849,
+  "paintings": 85,
+  "languages": 22,
+  "systems": {
+    "clip_lr": {
+      "all": {
+        "contrast": {
+          "point": 0.44617359002463597,
+          "std": 0.03104648075656062,
+          "ci_low": 0.38562165745968063,
+          "ci_high": 0.5061747382446103
+        },
+        "log_loss": {
+          "point": 0.752252371083627,
+          "std": 0.03878938502674202,
+          "ci_low": 0.6773613280343918,
+          "ci_high": 0.8271162236916766
+        },
+        "paintings_scored": 82
+      },
+      "test_proxy": {
+        "contrast": {
+          "point": 0.42275982340902246,
+          "std": 0.03439850702914972,
+          "ci_low": 0.3572961718086935,
+          "ci_high": 0.49015368080154864
+        },
+        "log_loss": {
+          "point": 0.7758870610847785,
+          "std": 0.03921173613202364,
+          "ci_low": 0.7014696093437645,
+          "ci_high": 0.850942062814648
+        },
+        "paintings_scored": 79
+      },
+      "file": "baselines/st3/results/dev/predictions.csv"
+    },
+    "language_prior": {
+      "all": {
+        "contrast": {
+          "point": 0.3643938073934239,
+          "std": 0.031532998684401826,
+          "ci_low": 0.3002022972291803,
+          "ci_high": 0.42619789011313947
+        },
+        "log_loss": {
+          "point": 0.8677576488110037,
+          "std": 0.02793661772916709,
+          "ci_low": 0.812627321180413,
+          "ci_high": 0.9207496928970856
+        },
+        "paintings_scored": 82
+      },
+      "test_proxy": {
+        "contrast": {
+          "point": 0.32826852816103735,
+          "std": 0.035073396144038545,
+          "ci_low": 0.258349319723429,
+          "ci_high": 0.39529432933952513
+        },
+        "log_loss": {
+          "point": 0.903824737954116,
+          "std": 0.027965072856184315,
+          "ci_low": 0.8482263369057738,
+          "ci_high": 0.9590386429662574
+        },
+        "paintings_scored": 79
+      },
+      "file": "train prior"
+    }
+  },
+  "paired_contrast": [
+    {
+      "a": "clip_lr@all",
+      "b": "language_prior@all",
+      "point": -0.08177978263121205,
+      "std": 0.020661325344006113,
+      "ci_low": -0.12251723658999729,
+      "ci_high": -0.04167108293585326,
+      "p_b_better": 0.0
+    }
+  ],
+  "paired_contrast_test_proxy": [
+    {
+      "a": "clip_lr@test_proxy",
+      "b": "language_prior@test_proxy",
+      "point": -0.09449129524798511,
+      "std": 0.02229164027527748,
+      "ci_low": -0.13948550895554845,
+      "ci_high": -0.05257828014915412,
+      "p_b_better": 0.0
+    }
+  ]
+}
