@@ -1,0 +1,20 @@
+[project]
+name = "artemotion28-entry"
+version = "0.1.0"
+description = "SemEval-2027 Task 12 (ArtEmotion-28) entry: analysis and experiments on top of the official baselines"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas>=2.0",
+    "scipy",
+    "scikit-learn",
+    "pillow",
+    # GPU scripts (train_st1.py, decoy_check.py) -- same pins as baselines/st1/requirements.txt
+    "torch>=2.1",
+    "transformers>=4.46,<5",
+    "accelerate>=0.26",
+    "safetensors",
+]
+
+[tool.uv]
+package = false

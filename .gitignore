@@ -8,6 +8,15 @@
 *.h5
 *.pkl
 
+*.safetensors
+
+# Run outputs: checkpoints and per-row predictions stay local.
+# Only the summaries in analysis/out/ (json/md) are committed.
+checkpoints/
+baselines/*/checkpoints/
+baselines/*/results/
+analysis/out/**/*.csv
+
 # Archives
 *.zip
 *.tar
