@@ -1,0 +1,25 @@
+{
+  "config": {
+    "mode": "text_only",
+    "tag": "text_holdout_s3",
+    "seed": 3,
+    "select_on": "train_holdout",
+    "holdout_frac": 0.1,
+    "holdout_seed": 0,
+    "decoy_seed": 0,
+    "num_train_epochs": 8.0,
+    "early_stopping_patience": 2,
+    "train_batch_size": 32,
+    "eval_batch_size": 64,
+    "learning_rate": 2e-05,
+    "max_train_samples": null
+  },
+  "git_commit": "637d6abbede1c086e3bb1ce6579315bcdb909d6d",
+  "train_rows": 137241,
+  "select_rows": 15206,
+  "select_paintings": 157,
+  "best_checkpoint": "/mnt/home/pieter/SemEval/Track12/artemotion-28/baselines/st1/checkpoints/runs/text_holdout_s3/checkpoint-15015",
+  "best_select_metric": 0.5547373933727678,
+  "val_f1_lang_macro": 0.5414499201244095,
+  "predictions": "baselines/st1/results/runs/text_holdout_s3/predictions.csv"
+}
