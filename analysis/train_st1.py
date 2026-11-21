@@ -102,8 +102,13 @@ def main():
                       compute_metrics=compute_metrics,
                       callbacks=[EarlyStoppingCallback(early_stopping_patience=args.early_stopping_patience)])
     resume = get_last_checkpoint(run_dir) if run_dir.is_dir() else None
+    # Re-running a finished tag resumes from its last checkpoint: no steps are left, so
+    # Trainer only reloads the best checkpoint and we go straight to prediction.
     trainer.train(resume_from_checkpoint=resume)
+    print(f"best checkpoint: {trainer.state.best_model_checkpoint} (select metric {trainer.state.best_metric})")
 
+    # compute_metrics is bound to select_df's languages; predict() on val/decoy rows must not call it.
+    trainer.compute_metrics = None
     out = val_df[["row_id", "painting", "language", "emotion", "label"]].copy()
     logits = trainer.predict(dataset(val_df)).predictions
     out["pred"] = logits.argmax(-1)
