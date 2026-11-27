@@ -16,3 +16,5 @@ Evaluation and split tooling for our ArtEmotion-28 entry. The official folders
 Conventions: bootstrap n=1000, seed 0; the resampling unit is the painting.
 Only the `json`/`md` summaries in `out/` are committed; per-row predictions and
 checkpoints stay local (see `.gitignore`).
+
+See the [Molmo visual-caption experiment](../scripts/VISUAL_CAPTIONS.md#molmo-7b-o-validation-results) for the overall and English-subset ST1 findings and links to the scoring reports.

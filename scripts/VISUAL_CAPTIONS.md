@@ -35,3 +35,27 @@ uv run --locked python analysis/score.py st1 --tag molmo_visual_captions_s42 \
 ```
 
 In `analysis/out/molmo_visual_captions_s42_st1.md`, read `aligned − text_only` for the effect of adding captions and `aligned − swapped` for the effect of using the correct painting's caption. The paired 95% intervals resample paintings; a delta whose interval includes zero is inconclusive in this run. This probe uses one swap assignment and does not test the official decoy criterion. Keep the per-row predictions local.
+
+## Molmo-7B-O validation results
+
+Correct Molmo descriptions improved ST1 scores relative to wrong-painting descriptions, but concatenating them with the human captions scored below text-only overall and on English.
+
+Molmo generated one English description per painting from the image alone. The [evaluator](evaluate_visual_captions.py) trained character n-gram classifiers on the multilingual training split. **Text-only** used human captions alone. **Aligned** appended the correct painting's Molmo description. **Swapped** used the same classifier as aligned and changed only the appended description at validation time, taking it from a different painting. The classifier and swap used seed 42.
+
+| Validation scope | Text-only | Aligned | Swapped |
+|---|---:|---:|---:|
+| All 28 languages (8,057 rows, 86 paintings) | **0.3928** | 0.2738 | 0.2104 |
+| English subset (308 rows) | **0.3037** | 0.2015 | 0.1025 |
+
+Scores are official ST1 macro-F1, averaged equally across languages for the full validation set.
+
+| Comparison (macro-F1 delta) | All languages | Paired 95% interval | English subset |
+|---|---:|---:|---:|
+| Aligned − text-only | −0.1190 | [−0.1422, −0.0930] | −0.1023 |
+| Aligned − swapped | +0.0634 | [+0.0263, +0.0941] | +0.0990 |
+
+The overall intervals use 1,000 paired painting bootstrap resamples (seed 0). Aligned scored above swapped in all 28 languages and below text-only in 27. The English subset shows that the drop also occurs when both captions are in English. Its deltas are point estimates from the multilingual models; no English-only model was trained and no English-specific paired intervals were computed.
+
+The result applies to this single-seed concatenation setup. It does not isolate caption quality or establish whether the system would pass the official decoy check.
+
+Run outputs: [full scoring report](../analysis/out/molmo_visual_captions_s42_st1.md) and [machine-readable metrics](../analysis/out/molmo_visual_captions_s42_st1.json), recorded in result commit `54c14a0`. The commands above reproduce the scoring.
