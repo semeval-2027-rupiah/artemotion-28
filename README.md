@@ -767,6 +767,9 @@ Contact us at [SemEval Task-12 Team](mailto:artemotion-28@googlegroups.com).
 | Faizan Farooq Khan | KAUST | Co-Organizer |
 | Usman Naseem | Macquarie University | Co-Organizer |
 | Shamsuddeen Hassan Muhammad | Imperial College London | Co-Organizer |
+| Atnafu Lambebo Tonja | University College London | Co-Organizer |
+| Idris Abdulmumin | University of Pretoria | Co-Organizer |
+| Seid Muhie Yimam | University of Hamburg | Co-Organizer |
 | Mohamed Elhoseiny | KAUST | Advisory Organizer |
 
 Three organizers are co-authors of the ArtELingo-28 dataset paper, with direct
