@@ -24,7 +24,7 @@ import sys
 
 import numpy as np
 
-from common import OUT, REPO, normalise_language
+from common import OUT, REPO, normalise_language, st1_train_holdout
 from decoy_check import derangement
 from metrics import language_macro_f1
 
@@ -61,11 +61,7 @@ def main():
     train_df, val_df = df[df["split"] == "train"], df[df["split"] == "val"].reset_index(drop=True)
 
     if args.select_on == "train_holdout":
-        paintings = np.array(sorted(train_df["painting"].unique()))
-        rng = np.random.default_rng(args.holdout_seed)
-        held = set(rng.choice(paintings, int(round(args.holdout_frac * len(paintings))), replace=False))
-        select_df = train_df[train_df["painting"].isin(held)].reset_index(drop=True)
-        train_df = train_df[~train_df["painting"].isin(held)]
+        train_df, select_df = st1_train_holdout(train_df, args.holdout_frac, args.holdout_seed)
     else:
         select_df = val_df
     if args.max_train_samples:

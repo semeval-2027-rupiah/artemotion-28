@@ -34,6 +34,8 @@ def derangement(items, seed):
     """A permutation of `items` with no fixed point."""
     rng = np.random.default_rng(seed)
     items = np.asarray(items)
+    if len(items) < 2:
+        raise ValueError("Decoy check needs at least two paintings")
     while True:
         perm = rng.permutation(len(items))
         if not (perm == np.arange(len(items))).any():
@@ -43,9 +45,15 @@ def derangement(items, seed):
 def best_checkpoint(root):
     """The checkpoint the Trainer marked best (as predict_phase.best_checkpoint, any root)."""
     root = Path(root)
-    latest = max((d for d in os.listdir(root) if d.startswith("checkpoint-")), key=lambda d: int(d.split("-")[1]))
-    best = json.loads((root / latest / "trainer_state.json").read_text())["best_model_checkpoint"]
-    return root / os.path.basename(best)
+    checkpoints = [d for d in root.glob("checkpoint-*") if d.name.removeprefix("checkpoint-").isdigit()
+                   and (d / "trainer_state.json").is_file()]
+    if not checkpoints:
+        raise ValueError(f"No Trainer checkpoints in {root}")
+    latest = max(checkpoints, key=lambda d: int(d.name.removeprefix("checkpoint-")))
+    best = json.loads((latest / "trainer_state.json").read_text())["best_model_checkpoint"]
+    if not best or not (root / Path(best).name / "model.safetensors").is_file():
+        raise ValueError(f"Missing best checkpoint weights in {root}")
+    return root / Path(best).name
 
 
 def load_model(mode, root, device):
@@ -56,6 +64,21 @@ def load_model(mode, root, device):
     model.load_state_dict(load_file(path / "model.safetensors"))
     print(f"{mode}: loaded {path}")
     return model.to(device).eval()
+
+
+def decoy_scores(gold, text_real, text_decoy, multimodal_real, multimodal_decoy):
+    real_ok = multimodal_real == gold
+    decoy_ok = multimodal_decoy == gold
+    real_wins = int((real_ok & ~decoy_ok).sum())
+    decoy_wins = int((~real_ok & decoy_ok).sum())
+    discordant = real_wins + decoy_wins
+    pvalue = float(binomtest(real_wins, discordant, 0.5, alternative="greater").pvalue) if discordant else 1.0
+    agreement = float(np.mean(text_real == text_decoy))
+    return {
+        "multimodal": {"real_wins": real_wins, "decoy_wins": decoy_wins,
+                       "mcnemar_one_sided_p": pvalue, "passes": pvalue < 0.05},
+        "text_only": {"agreement": agreement, "passes": agreement >= 0.99},
+    }
 
 
 def main():
@@ -99,20 +122,19 @@ def main():
             torch.cuda.empty_cache()
 
     gold = out["label"].to_numpy()
-    real_ok = out["multimodal_real"].to_numpy() == gold
-    decoy_ok = out["multimodal_decoy"].to_numpy() == gold
-    real_wins, decoy_wins = int((real_ok & ~decoy_ok).sum()), int((~real_ok & decoy_ok).sum())
-    mcnemar_p = binomtest(real_wins, real_wins + decoy_wins, 0.5, alternative="greater").pvalue
-    agreement = float((out["text_only_real"] == out["text_only_decoy"]).mean())
+    columns = ("text_only_real", "text_only_decoy", "multimodal_real", "multimodal_decoy")
+    checks = decoy_scores(gold, *(out[name].to_numpy() for name in columns))
+    real_wins = checks["multimodal"]["real_wins"]
+    decoy_wins = checks["multimodal"]["decoy_wins"]
+    mcnemar_p = checks["multimodal"]["mcnemar_one_sided_p"]
+    agreement = checks["text_only"]["agreement"]
     f1 = {f"{mode}_{kind}": language_macro_f1(gold, out[f"{mode}_{kind}"], out["language"])
           for mode in ("text_only", "multimodal") for kind in ("real", "decoy")}
 
     payload = {"seed": args.seed, "rows": len(out), "paintings": int(out["painting"].nunique()),
                "checkpoints": {"text_only": str(best_checkpoint(text_ckpt)),
                                "multimodal": str(best_checkpoint(multi_ckpt))},
-               "multimodal": {"real_wins": real_wins, "decoy_wins": decoy_wins,
-                              "mcnemar_one_sided_p": float(mcnemar_p), "passes": bool(mcnemar_p < 0.05)},
-               "text_only": {"agreement": agreement, "passes": agreement >= 0.99},
+               **checks,
                "language_macro_f1": f1}
     rows_path = ST1_DIR / "results" / f"decoy_val_{args.tag}.csv"
     out.to_csv(rows_path, index=False)

@@ -87,6 +87,16 @@ def st1_rows(df):
     return out
 
 
+def st1_train_holdout(train, fraction, seed):
+    paintings = np.array(sorted(train["painting"].unique()))
+    size = int(round(fraction * len(paintings)))
+    if not 0 < size < len(paintings):
+        raise ValueError("ST1 holdout must leave at least one painting on each side")
+    held = np.random.default_rng(seed).choice(paintings, size, replace=False)
+    select = train["painting"].isin(held)
+    return train[~select], train[select].reset_index(drop=True)
+
+
 def sentiment_pairs(df, split=None, min_annotators=MIN_ANNOTATORS):
     """(painting, language) pairs with k positive of n binary-mappable annotators."""
     rows = df[df["emotion"].isin(POSITIVE | NEGATIVE)]

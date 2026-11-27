@@ -133,6 +133,7 @@ def score_st1(args):
     payload["per_language"] = lang_table.to_dict(orient="records")
 
     write_outputs(f"{args.tag}_st1", payload, st1_markdown(payload, names, lang_table, args))
+    return payload
 
 
 def per_class_f1(df):
