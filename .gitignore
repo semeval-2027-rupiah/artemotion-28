@@ -30,4 +30,5 @@ venv/
 
 # OS
 .DS_Store
+/runs/visual-captions/
 Thumbs.db
